@@ -12,11 +12,13 @@ import { Repository } from "typeorm";
 import { compare, hash } from "bcrypt";
 import _ from "lodash";
 import { JwtService } from "@nestjs/jwt";
+import { PointService } from "src/point/point.service";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly pointService: PointService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -30,7 +32,16 @@ export class UserService {
 
     const hashedPassword = await hash(password, 10);
 
-    this.userRepository.save({ email, password: hashedPassword, name });
+    const newUser = await this.userRepository.save({
+      email,
+      password: hashedPassword,
+      name,
+    });
+
+    this.pointService.addPointHistory(newUser.id, {
+      amount: 1000000,
+      reason: "신규 가입",
+    });
 
     return "회원가입 완료";
   }
@@ -52,7 +63,12 @@ export class UserService {
       email: user.email,
     });
 
-    return { user_id: user.id, accessToken };
+    const point = await this.pointService.getCurrentPoint(user.id);
+
+    delete user.password;
+    user["cur_point"] = point;
+
+    return { user, accessToken };
   }
 
   async findAll(role: "admin" | "user") {
