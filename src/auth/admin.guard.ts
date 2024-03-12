@@ -9,7 +9,7 @@ export class AdminGuard extends AuthGuard("jwt") implements CanActivate {
     super();
   }
 
-  async canActive(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext) {
     const authenticated = await super.canActivate(context);
     if (!authenticated) return false;
 
