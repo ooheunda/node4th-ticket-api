@@ -8,6 +8,8 @@ import { User } from "./user/entities/user.entity";
 import joi from "joi";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
+import { PointModule } from "./point/point.module";
+import { Point } from "./point/entities/point.entity";
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -20,7 +22,7 @@ const typeOrmModuleOptions = {
     host: configService.get("DB_HOST"),
     port: configService.get("DB_PORT"),
     database: configService.get("DB_NAME"),
-    entities: [User],
+    entities: [User, Point],
     synchronize: configService.get("DB_SYNC"),
     logging: true,
   }),
@@ -44,6 +46,7 @@ const typeOrmModuleOptions = {
     TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     AuthModule,
     UserModule,
+    PointModule,
   ],
   controllers: [AppController],
   providers: [AppService],

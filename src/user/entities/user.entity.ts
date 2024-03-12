@@ -1,9 +1,11 @@
 import { IsBoolean, IsEmail, IsString } from "class-validator";
+import { Point } from "src/point/entities/point.entity";
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -37,4 +39,7 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToMany(() => Point, (point) => point.user)
+  point: Point;
 }
