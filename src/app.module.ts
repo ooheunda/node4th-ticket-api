@@ -10,6 +10,9 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { PointModule } from "./point/point.module";
 import { Point } from "./point/entities/point.entity";
+import { PerformanceModule } from './performance/performance.module';
+import { SeatModule } from './seat/seat.module';
+import { ReservationModule } from './reservation/reservation.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -47,6 +50,9 @@ const typeOrmModuleOptions = {
     AuthModule,
     UserModule,
     PointModule,
+    PerformanceModule,
+    SeatModule,
+    ReservationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

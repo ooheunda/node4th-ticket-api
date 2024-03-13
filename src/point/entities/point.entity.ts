@@ -1,4 +1,5 @@
 import { IsNumber, IsString } from "class-validator";
+import { Reservation } from "src/reservation/entities/reservation.entity";
 import { User } from "src/user/entities/user.entity";
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -37,5 +39,7 @@ export class Point {
   @JoinColumn({ name: "user_id" })
   user: User;
 
-  // nullable reservation_id relation
+  @OneToOne(() => Reservation)
+  @JoinColumn({ name: "reservation_id" })
+  reservation: Reservation;
 }

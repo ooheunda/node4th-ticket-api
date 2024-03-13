@@ -1,5 +1,6 @@
 import { IsBoolean, IsEmail, IsString } from "class-validator";
 import { Point } from "src/point/entities/point.entity";
+import { Reservation } from "src/reservation/entities/reservation.entity";
 import {
   Column,
   CreateDateColumn,
@@ -42,4 +43,7 @@ export class User {
 
   @OneToMany(() => Point, (point) => point.user)
   point: Point;
+
+  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  reservation: Reservation;
 }
